@@ -271,6 +271,13 @@ func decodeLineOfMasterPlaylist(p *MasterPlaylist, state *decodingState, line st
 		p.Variants = append(p.Variants, state.variant)
 		for k, v := range decodeParamsLine(line[18:]) {
 			switch k {
+			case "PROGRAM-ID":
+				var val int
+				val, err = strconv.Atoi(v)
+				if strict && err != nil {
+					return err
+				}
+				state.variant.ProgramId = uint32(val)
 			case "BANDWIDTH":
 				var val int
 				val, err = strconv.Atoi(v)
